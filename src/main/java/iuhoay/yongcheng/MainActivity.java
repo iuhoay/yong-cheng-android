@@ -1,10 +1,9 @@
 package iuhoay.yongcheng;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +18,10 @@ public class MainActivity extends Activity {
 
 
     ICServer icServer;
+    SharedPreferences temporary;
+
+    final String TEMPORARY = "temporary";
+    final String TEMPORARY_LATEST = "latest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +32,26 @@ public class MainActivity extends Activity {
         final Button submit = (Button) findViewById(R.id.submit);
         final TextView show = (TextView) findViewById(R.id.show);
         icServer = new ICServer();
+        temporary = getSharedPreferences(TEMPORARY, Context.MODE_PRIVATE);
+
+        icNO.setText(temporary.getString(TEMPORARY_LATEST, ""));
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String icNoString = icNO.getText().toString();
+                if (icNoString == null || icNoString.length() == 0) {
+                    Toast.makeText(MainActivity.this, R.string.input_your_ic_number, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 try {
-                    String icNoString = icNO.getText().toString();
-                    if (icNoString == null || icNoString.length() == 0) {
-                        Toast.makeText(MainActivity.this, "请输入 IC 卡号", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     show.setText(new ICTask().execute(icNoString).get());
-                } catch (Exception e) {
-                    Log.e("", "", e);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                temporary.edit().putString(TEMPORARY_LATEST, icNoString).commit();
             }
         });
     }

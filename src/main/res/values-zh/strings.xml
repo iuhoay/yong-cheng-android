@@ -2,5 +2,8 @@
 <resources>
 
     <string name="app_name">甬城</string>
+    <string name="submit">查询</string>
+    <string name="icNO_hint">输入甬城通卡号</string>
+    <string name="input_your_ic_number">没有卡号查什么</string>
 
 </resources>

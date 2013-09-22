@@ -11,13 +11,18 @@
 
     <EditText android:id="@+id/icNO"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/icNO_hint"
+        android:inputType="number"/>
     <Button android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"/>
+        android:text="@string/submit"/>
     <TextView android:id="@+id/show"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="100sp"
+        android:hint=":)"/>
 
 </LinearLayout>
