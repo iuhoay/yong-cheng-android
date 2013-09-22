@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,12 +47,16 @@ public class MainActivity extends Activity {
                 }
                 try {
                     show.setText(new ICTask().execute(icNoString).get());
+
+                    temporary.edit().putString(TEMPORARY_LATEST, icNoString).commit();
+
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(icNO.getWindowToken(), 0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                temporary.edit().putString(TEMPORARY_LATEST, icNoString).commit();
             }
         });
     }
