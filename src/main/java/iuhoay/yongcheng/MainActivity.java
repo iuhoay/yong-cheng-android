@@ -29,20 +29,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText icNO = (EditText) findViewById(R.id.icNO);
-        final Button submit = (Button) findViewById(R.id.submit);
-        final TextView show = (TextView) findViewById(R.id.show);
+        final EditText edit_icNO = (EditText) findViewById(R.id.edit_icNO);
+        final Button button_submit = (Button) findViewById(R.id.button_submit);
+        final TextView text_result = (TextView) findViewById(R.id.text_result);
         icServer = new ICServer();
         temporary = getSharedPreferences(TEMPORARY, Context.MODE_PRIVATE);
 
-        icNO.setText(temporary.getString(TEMPORARY_LATEST, ""));
+        edit_icNO.setText(temporary.getString(TEMPORARY_LATEST, ""));
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String icNoString = icNO.getText().toString();
+                String icNoString = edit_icNO.getText().toString();
                 if (icNoString == null || icNoString.length() == 0) {
-                    Toast.makeText(MainActivity.this, R.string.input_your_ic_number, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.message_input_ic_number, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
@@ -53,12 +53,12 @@ public class MainActivity extends Activity {
                         } else if (ICServer.MESSAGE_ERROR.equals(result)) {
                             Toast.makeText(MainActivity.this, R.string.message_error, Toast.LENGTH_SHORT).show();
                         } else {
-                            show.setText(new ICTask().execute(icNoString).get());
+                            text_result.setText(new ICTask().execute(icNoString).get());
                             temporary.edit().putString(TEMPORARY_LATEST, icNoString).commit();
                         }
                     }
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(icNO.getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(edit_icNO.getWindowToken(), 0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
