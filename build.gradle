@@ -28,5 +28,5 @@ dependencies {
 	// The Support Repository (separate from the corresponding library) can be found in the Extras category.
 	// compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('libs/jsoup-1.7.2.jar')
-    compile files('libs/ningbo4j-0.0.1.jar')
+    compile files('libs/ningbo4j-0.0.2.jar')
 }

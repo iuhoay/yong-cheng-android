@@ -46,10 +46,17 @@ public class MainActivity extends Activity {
                     return;
                 }
                 try {
-                    show.setText(new ICTask().execute(icNoString).get());
-
-                    temporary.edit().putString(TEMPORARY_LATEST, icNoString).commit();
-
+                    String result = new ICTask().execute(icNoString).get();
+                    if (result != null) {
+                        if (ICServer.MESSAGE_NO_RESULT.equals(result)) {
+                            Toast.makeText(MainActivity.this, R.string.message_no_result, Toast.LENGTH_SHORT).show();
+                        } else if (ICServer.MESSAGE_ERROR.equals(result)) {
+                            Toast.makeText(MainActivity.this, R.string.message_error, Toast.LENGTH_SHORT).show();
+                        } else {
+                            show.setText(new ICTask().execute(icNoString).get());
+                            temporary.edit().putString(TEMPORARY_LATEST, icNoString).commit();
+                        }
+                    }
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(icNO.getWindowToken(), 0);
                 } catch (InterruptedException e) {
